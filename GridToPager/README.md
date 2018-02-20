@@ -1,6 +1,6 @@
 # Android Fragment Transitions: RecyclerView to ViewPager
 
-This Android project accompanies the [Continuous Shared Element Transitions: RecyclerView to ViewPager](https://goo.gl/Nt1Pfu) article. 
+This Android project accompanies the [Continuous Shared Element Transitions: RecyclerView to ViewPager](https://goo.gl/Txqtds ) article. 
 
 The code here provides the implementation for a specific transition between Android Fragments. 
 It demonstrates how to implement a transition from an image in a `RecyclerView` into an image in a 
