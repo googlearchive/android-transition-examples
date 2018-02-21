@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-    super.onSaveInstanceState(outState, outPersistentState);
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
     outState.putInt(KEY_CURRENT_POSITION, currentPosition);
   }
 }
