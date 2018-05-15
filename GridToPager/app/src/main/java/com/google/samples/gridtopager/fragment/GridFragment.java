@@ -51,7 +51,7 @@ public class GridFragment extends Fragment {
     recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_grid, container, false);
     recyclerView.setAdapter(new GridAdapter(this));
     
-    if (savedInstanceState != null) {
+    if (savedInstanceState == null) {
       oldRight = -1;
     } else {
       oldRight = savedInstanceState.getInt(KEY_OLD_RIGHT);
