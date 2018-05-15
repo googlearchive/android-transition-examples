@@ -38,8 +38,11 @@ import java.util.Map;
  * A fragment for displaying a grid of images.
  */
 public class GridFragment extends Fragment {
-
+  
+  private static final String KEY_OLD_RIGHT = "oldRight";
+  
   private RecyclerView recyclerView;
+  private int oldRight;
 
   @Nullable
   @Override
@@ -47,7 +50,13 @@ public class GridFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_grid, container, false);
     recyclerView.setAdapter(new GridAdapter(this));
-
+    
+    if (savedInstanceState == null) {
+      oldRight = -1;
+    } else {
+      oldRight = savedInstanceState.getInt(KEY_OLD_RIGHT);
+    }
+    
     prepareTransitions();
     postponeEnterTransition();
 
@@ -58,6 +67,16 @@ public class GridFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     scrollToPosition();
+  }
+  
+  /**
+   * Saves the layout's right position when rotating the device. This is to prevent
+   * OnLayoutChangedListener from reseting the RecyclerView's position on device rotation.
+   */
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt(KEY_OLD_RIGHT, oldRight);
   }
 
   /**
@@ -77,6 +96,7 @@ public class GridFragment extends Fragment {
           int oldRight,
           int oldBottom) {
         recyclerView.removeOnLayoutChangeListener(this);
+        if (oldRight == -1 || oldRight == right) return;
         final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         View viewAtPosition = layoutManager.findViewByPosition(MainActivity.currentPosition);
         // Scroll to position if the view for the current position is null (not currently part of
