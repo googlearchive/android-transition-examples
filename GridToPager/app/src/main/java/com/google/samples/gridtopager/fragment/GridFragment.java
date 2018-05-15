@@ -27,7 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+
 import com.google.samples.gridtopager.adapter.GridAdapter;
 import com.google.samples.gridtopager.MainActivity;
 import com.google.samples.gridtopager.R;
@@ -38,25 +38,25 @@ import java.util.Map;
  * A fragment for displaying a grid of images.
  */
 public class GridFragment extends Fragment {
-  
-  private static final String KEY_OLD_RIGHT = "oldRight";
-  
+
+  private static final String KEY_OLD_RIGHT = "mOldRight";
+
   private RecyclerView recyclerView;
-  private int oldRight;
+  private int mOldRight;
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
+                           @Nullable Bundle savedInstanceState) {
     recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_grid, container, false);
     recyclerView.setAdapter(new GridAdapter(this));
-    
+
     if (savedInstanceState == null) {
-      oldRight = -1;
+      mOldRight = -1;
     } else {
-      oldRight = savedInstanceState.getInt(KEY_OLD_RIGHT);
+      mOldRight = savedInstanceState.getInt(KEY_OLD_RIGHT);
     }
-    
+
     prepareTransitions();
     postponeEnterTransition();
 
@@ -68,15 +68,15 @@ public class GridFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     scrollToPosition();
   }
-  
+
   /**
    * Saves the layout's right position when rotating the device. This is to prevent
-   * OnLayoutChangedListener from reseting the RecyclerView's position on device rotation.
+   * OnLayoutChangedListener from resetting the RecyclerView's position on device rotation.
    */
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putInt(KEY_OLD_RIGHT, oldRight);
+    outState.putInt(KEY_OLD_RIGHT, mOldRight);
   }
 
   /**
@@ -87,23 +87,26 @@ public class GridFragment extends Fragment {
     recyclerView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
       @Override
       public void onLayoutChange(View v,
-          int left,
-          int top,
-          int right,
-          int bottom,
-          int oldLeft,
-          int oldTop,
-          int oldRight,
-          int oldBottom) {
+                                 int left,
+                                 int top,
+                                 int right,
+                                 int bottom,
+                                 int oldLeft,
+                                 int oldTop,
+                                 int oldRight,
+                                 int oldBottom) {
         recyclerView.removeOnLayoutChangeListener(this);
-        if (oldRight == -1 || oldRight == right) return;
+        if (mOldRight != -1 || mOldRight == right) return;
         final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         View viewAtPosition = layoutManager.findViewByPosition(MainActivity.currentPosition);
         // Scroll to position if the view for the current position is null (not currently part of
         // layout manager children), or it's not completely visible.
         if (viewAtPosition == null || layoutManager
-            .isViewPartiallyVisible(viewAtPosition, false, true)) {
-          recyclerView.post(() -> layoutManager.scrollToPosition(MainActivity.currentPosition));
+                .isViewPartiallyVisible(viewAtPosition, false, true)) {
+          recyclerView.post(() -> {
+            layoutManager.scrollToPosition(MainActivity.currentPosition);
+            mOldRight = right;
+          });
         }
       }
     });
@@ -115,24 +118,24 @@ public class GridFragment extends Fragment {
    */
   private void prepareTransitions() {
     setExitTransition(TransitionInflater.from(getContext())
-        .inflateTransition(R.transition.grid_exit_transition));
+            .inflateTransition(R.transition.grid_exit_transition));
 
     // A similar mapping is set at the ImagePagerFragment with a setEnterSharedElementCallback.
     setExitSharedElementCallback(
-        new SharedElementCallback() {
-          @Override
-          public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-            // Locate the ViewHolder for the clicked position.
-            RecyclerView.ViewHolder selectedViewHolder = recyclerView
-                .findViewHolderForAdapterPosition(MainActivity.currentPosition);
-            if (selectedViewHolder == null || selectedViewHolder.itemView == null) {
-              return;
-            }
+            new SharedElementCallback() {
+              @Override
+              public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                // Locate the ViewHolder for the clicked position.
+                RecyclerView.ViewHolder selectedViewHolder = recyclerView
+                        .findViewHolderForAdapterPosition(MainActivity.currentPosition);
+                if (selectedViewHolder == null || selectedViewHolder.itemView == null) {
+                  return;
+                }
 
-            // Map the first shared element name to the child ImageView.
-            sharedElements
-                .put(names.get(0), selectedViewHolder.itemView.findViewById(R.id.card_image));
-          }
-        });
+                // Map the first shared element name to the child ImageView.
+                sharedElements
+                        .put(names.get(0), selectedViewHolder.itemView.findViewById(R.id.card_image));
+              }
+            });
   }
 }
