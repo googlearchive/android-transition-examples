@@ -56,8 +56,8 @@ jobs:
           command: |
             BUILD_DIR=build_${CIRCLE_BUILD_NUM}
             sudo gcloud firebase test android run \
-              --app app/build/outputs/apk/debug/app-debug.apk \
-              --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+              --app GridToPager/app/build/outputs/apk/debug/app-debug.apk \
+              --test GridToPager/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID}-android-transition-examples \
               --results-dir=${BUILD_DIR}
       - run:
