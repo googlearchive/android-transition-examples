@@ -38,12 +38,12 @@ jobs:
           path: ~/junit
           destination: tests
       - store_artifacts:
-          path: ./mobile/build/reports
+          path: ./GridToPager/app/build/reports
           destination: reports/
       - persist_to_workspace:
           root: .
           paths:
-            - ./mobile/build
+            - ./GridToPager/app/build
 
   run_ftl:
     <<: *config_android
