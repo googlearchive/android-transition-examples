@@ -16,7 +16,7 @@
 
 package com.google.samples.gridtopager.adapter;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import com.google.samples.gridtopager.R;
 
 /**

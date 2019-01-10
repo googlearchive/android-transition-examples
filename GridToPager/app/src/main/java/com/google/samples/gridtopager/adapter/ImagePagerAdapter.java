@@ -18,8 +18,8 @@ package com.google.samples.gridtopager.adapter;
 
 import static com.google.samples.gridtopager.adapter.ImageData.IMAGE_DRAWABLES;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.google.samples.gridtopager.fragment.ImageFragment;
 
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {

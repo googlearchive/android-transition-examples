@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
@@ -38,4 +38,4 @@
       android:layout_height="200dp"
       android:contentDescription="@string/image_description"
       android:scaleType="fitCenter"/>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
