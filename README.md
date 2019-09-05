@@ -1,7 +1,7 @@
-# Android Transition Examples
-This repository holds various Android transition example projects.
+Android Transition Sample
+=========================
 
-**This is not an officially supported Google product.**
+This repo has been migrated to [github.com/android/animation][1]. Please check that repo for future updates. Thank you!
 
-## Licence
-[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+[1]: https://github.com/android/animation
+
